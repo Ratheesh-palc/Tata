@@ -16,37 +16,31 @@
         </h1>
         <p id="user-info"></p> <!-- Placeholder for displaying user info -->
     </div>
-   <script type="text/javascript">
 
-        var loginName = "";
-        var userid = _spPageContextInfo.userId;
-        GetCurrentUser();
-        
-        function GetCurrentUser() {
-        var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
-        
-        var requestHeaders = { "accept" : "application/json;odata=verbose" };
-        
-        $.ajax({
-          url : requestUri,
-          contentType : "application/json;odata=verbose",
-          headers : requestHeaders,
-          success : onSuccess,
-          error : onError
-          });
-        }
-        
-        function onSuccess(data, request) {
-            var loginName = data.d.Title;
-            alert("Hello " + loginName);
-        
-            // to set the "hello username" into the page
-            document.getElementById("id").innerHTML = "Hello " + loginName;
-            }
-        
-        function onError(error) {
-          alert(error);
-          }
-          </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Get the current user's ID from the context
+            var userId = _spPageContextInfo.userId;
+            
+            // Define the REST API endpoint to get user by ID
+            var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userId + ")";
+            var requestHeaders = { "Accept": "application/json;odata=verbose" };
+
+            // Make the AJAX request
+            $.ajax({
+                url: requestUri,
+                type: "GET",
+                headers: requestHeaders,
+                success: function(data) {
+                    var loginName = data.d.LoginName; // Gets the login name of the user
+                    $("#user-info").text('Hello ' + loginName); // Display the login name
+                },
+                error: function(error) {
+                    console.error('Error fetching user data:', error);
+                    $("#user-info").text('Error fetching user data');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
