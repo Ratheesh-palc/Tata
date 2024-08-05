@@ -32,8 +32,8 @@
                 type: "GET",
                 headers: requestHeaders,
                 success: function(data) {
-                    var loginName = data.d.LoginName; // Gets the login name of the user
-                    $("#user-info").text('Hello ' + loginName); // Display the login name
+                    var email = data.d.Email; // Gets the email address of the user
+                    $("#user-info").text('Your email address is: ' + email); // Display the email address
                 },
                 error: function(error) {
                     console.error('Error fetching user data:', error);
